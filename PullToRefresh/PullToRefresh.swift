@@ -96,7 +96,7 @@ open class PullToRefresh: NSObject {
                 }
             case .releasing(progress: let value) where value < 0.1:
                 state = .initial
-            
+                
             default: break
             }
             self.enableOppositeRefresher(state == .initial)
@@ -272,27 +272,30 @@ private extension PullToRefresh {
             return
         }
         
-        scrollView.contentOffset = previousScrollViewOffset
+        //        scrollView.contentOffset = previousScrollViewOffset
         scrollView.bounces = false
+        let insetY = self.refreshView.frame.height + self.scrollViewDefaultInsets.top
+        scrollView.contentInset.top = insetY
+        
         UIView.animate(
             withDuration: 0.3,
             animations: {
                 switch self.position {
                 case .top:
                     let insetY = self.refreshView.frame.height + self.scrollViewDefaultInsets.top
-                    scrollView.contentInset.top = insetY
+                    
                     scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: -insetY)
                 case .bottom:
                     let insetY = self.refreshView.frame.height + self.scrollViewDefaultInsets.bottom
                     scrollView.contentInset.bottom = insetY
                 }
-            },
+        },
             completion: { _ in
                 scrollView.bounces = true
                 if self.shouldBeVisibleWhileScrolling {
                     self.bringRefreshViewToSuperview()
                 }
-            }
+        }
         )
         action?()
     }
@@ -307,11 +310,11 @@ private extension PullToRefresh {
             options: animationOptions,
             animations: {
                 self.scrollView?.contentInset = self.scrollViewDefaultInsets
-            },
+        },
             completion: { _ in
                 self.addScrollViewObserving()
                 self.state = .initial
-            }
+        }
         )
     }
 }
