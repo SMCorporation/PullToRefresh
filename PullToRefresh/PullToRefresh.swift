@@ -272,7 +272,6 @@ private extension PullToRefresh {
             return
         }
         
-        //        scrollView.contentOffset = previousScrollViewOffset
         scrollView.bounces = false
         let insetY = self.refreshView.frame.height + self.scrollViewDefaultInsets.top
         scrollView.contentInset.top = insetY
