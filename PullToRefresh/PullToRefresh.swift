@@ -159,8 +159,8 @@ extension PullToRefresh {
             }
             let refreshViewHeight = refreshView.frame.size.height
             switch offset {
-            case 0 where (state != .loading): state = .initial
-            case -refreshViewHeight...0 where (state != .loading && state != .finished):
+            case 0 where (state != .loading && state != .initial): state = .initial
+            case -refreshViewHeight...0 where (state != .loading && state != .finished && state != .initial):
                 state = .releasing(progress: -offset / refreshViewHeight)
                 
             case -1000...(-refreshViewHeight):
