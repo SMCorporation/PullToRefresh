@@ -73,7 +73,7 @@ open class PullToRefresh: NSObject {
         willSet{
             switch newValue {
             case .finished:
-                if shouldBeVisibleWhileScrolling {
+                if !shouldBeVisibleWhileScrolling {
                     sendRefreshViewToScrollView()
                 }
             default: break
